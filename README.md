@@ -1,60 +1,108 @@
 # WordPress Docker Installer for Windows
 
-An interactive PowerShell script that installs WordPress with Docker on Windows using MySQL, MariaDB, or PostgreSQL as the database backend.
+A **graphical installer** for WordPress on Windows using Docker. No command-line knowledge required!
 
 **Version:** 1.0.0
 **by Avodah Systems**
 
+![Screenshot](https://img.shields.io/badge/Windows-10/11-blue) ![Docker](https://img.shields.io/badge/Docker-Desktop-blue) ![PowerShell](https://img.shields.io/badge/PowerShell-5.1+-blue)
+
 ## Features
 
-- **Interactive Installation Wizard** - Step-by-step guided setup
-- **Multiple Database Support** - MySQL, MariaDB, and PostgreSQL
-- **Auto-Configuration** - Automatically generates secure passwords
-- **Docker Compose** - Uses Docker Compose for easy container management
-- **WP-CLI Integration** - Automates WordPress core installation
+- **🖥️ Graphical Installation Wizard** - No command line needed
+- **🗄️ Multiple Database Support** - MySQL, MariaDB, PostgreSQL
+- **🔐 Auto-Security** - Automatically generates secure passwords
+- **✅ Port Availability Checking** - Validates ports before installation
+- **📊 Progress Tracking** - Visual installation progress
+- **🎨 Modern UI** - Clean, intuitive interface
+
+## Screenshots
+
+### Welcome Screen
+![Step 1: Database Selection](docs/screenshot1.png)
+
+### Port Configuration
+![Step 2: Port](docs/screenshot2.png)
+
+### Installation Progress
+![Step 3: Progress](docs/screenshot3.png)
 
 ## Requirements
 
-- Windows 10/11 or Windows Server 2019+
+- **Windows 10/11** or **Windows Server 2019+**
 - **Docker Desktop for Windows** - [Download here](https://www.docker.com/products/docker-desktop)
-- PowerShell 5.1+ (included with Windows)
-- Administrator privileges
+- **Administrator privileges** (requested automatically)
+- **PowerShell 5.1+** (included with Windows)
 
-## Installation
+## Quick Start
 
-1. Clone or download this repository:
-   ```powershell
-   git clone https://github.com/sfowooza/Wordpress-Docker-Installer-Windows
-   cd Wordpress-Docker-Installer-Windows
-   ```
+### Option 1: Double-Click (Easiest)
 
-2. Run the installer as Administrator:
-   ```powershell
-   # Right-click on PowerShell and select "Run as Administrator"
-   .\install.ps1
-   ```
+1. Download and extract the ZIP file
+2. Double-click `Install-WordPress.bat`
+3. Follow the installation wizard
+4. Done! 🎉
 
-## Usage
+### Option 2: Right-Click Run
 
-### Interactive Installation
+1. Download and extract the ZIP file
+2. Right-click on `Install-WordPress.bat`
+3. Select "Run as administrator"
+4. Follow the installation wizard
 
-Simply run the script without arguments to start the installation wizard:
+## Installation Steps
 
-```powershell
-.\install.ps1
+### Step 1: Choose Your Database
+
+| Database | Description | Recommended |
+|----------|-------------|--------------|
+| **MySQL** | Most popular, best plugin compatibility | ✅ Yes |
+| **MariaDB** | Enhanced MySQL alternative | ✅ Yes |
+| **PostgreSQL** | Advanced, requires plugin | ⚠️ Experimental |
+
+### Step 2: Configure Port
+
+- Choose a port for WordPress (default: 8080)
+- The installer checks if the port is available
+- Quick-select buttons for common ports
+
+### Step 3: Site Configuration
+
+- Enter your site title
+- Enter your WordPress URL (e.g., `localhost:8080`)
+
+### Step 4: Admin Account
+
+- Create your admin username
+- Set admin password (or generate secure one)
+- Enter admin email
+
+### Step 5: Installation
+
+- Watch real-time progress
+- Automatic WordPress configuration
+- View installation logs
+
+## After Installation
+
+### Access Your Site
+
+```
+URL: http://localhost:PORT
+Admin: http://localhost:PORT/wp-admin/
 ```
 
-The wizard will guide you through:
-1. Database selection (MySQL, MariaDB, or PostgreSQL)
-2. Port configuration
-3. Site configuration (title, admin credentials)
-4. WordPress URL
-5. Database credentials (auto-generated for security)
+### Generated Files
+
+- **`.env`** - Configuration file (keep it safe!)
+- **`credentials.txt`** - Your login credentials (save this!)
 
 ### Management Commands
 
+You can also use the command-line version for advanced management:
+
 ```powershell
-# Start existing containers
+# Start containers
 .\install.ps1 start
 
 # Stop containers
@@ -63,115 +111,102 @@ The wizard will guide you through:
 # Restart containers
 .\install.ps1 restart
 
-# Show container status
+# View status
 .\install.ps1 status
 
-# Show logs
+# View logs
 .\install.ps1 logs
 
-# Uninstall (remove containers and volumes)
+# Uninstall
 .\install.ps1 uninstall
-
-# Show help
-.\install.ps1 help
 ```
-
-## Database Options
-
-### MySQL (Default)
-- Most popular and well-tested
-- Full compatibility with all WordPress plugins
-- Image: `mysql:8.0`
-
-### MariaDB
-- Drop-in MySQL replacement with enhanced features
-- Better performance for some workloads
-- Image: `mariadb:11.1`
-
-### PostgreSQL (Experimental)
-- Advanced features
-- Requires WP PG4WP plugin
-- May have compatibility issues with some plugins
-- Image: `postgres:16-alpine`
-
-## Project Structure
-
-```
-.
-├── install.ps1                      # Main installer script
-├── Dockerfile                       # Custom WordPress image with WP-CLI
-├── docker-compose.yml               # MySQL configuration
-├── docker-compose.mariadb.yml       # MariaDB configuration
-├── docker-compose.postgresql.yml    # PostgreSQL configuration
-└── README.md                        # This file
-```
-
-## Generated Files
-
-After installation, the following files are created:
-
-- `.env` - Environment configuration with all settings
-- `credentials.txt` - Your database and admin credentials (keep safe!)
 
 ## Troubleshooting
 
-### "Script is disabled on this system"
+### "Windows protected your PC"
 
-If you see this error, you need to allow script execution:
+Click "More info" → "Run anyway" to allow the installer.
 
+### Script Execution Issues
+
+Open PowerShell as Administrator and run:
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-### Port Already in Use
-
-The installer will detect if a port is in use and prompt you to choose another. Common ports to avoid:
-- 80 (IIS)
-- 443 (IIS)
-- 3306 (MySQL)
-- 5432 (PostgreSQL)
-- 8080 (common alternative)
-
 ### Docker Not Running
 
-Make sure Docker Desktop is running:
-1. Check system tray for Docker icon
-2. Open Docker Desktop
-3. Wait for "Docker Desktop is running" message
+1. Open Docker Desktop from Start Menu
+2. Wait for "Docker Desktop is running" message
+3. Run the installer again
 
-### Access WordPress
+### Port Already in Use
 
-After installation, access your site at:
-- `http://localhost:PORT` (where PORT is what you chose during installation)
-- Admin area: `http://localhost:PORT/wp-admin/`
+The installer will warn you. Choose a different port:
+- Try 8081, 8082, 8185, 8186, etc.
+- Avoid: 80 (IIS), 3306 (MySQL), 5432 (PostgreSQL)
+
+### Installation Failed
+
+1. Check Docker Desktop is running
+2. Verify you have administrator privileges
+3. Check the logs in the installer window
+4. Ensure port is not in use by another application
+
+## Advanced Usage
+
+### Command-Line Installer
+
+For advanced users who prefer command-line:
+```powershell
+.\install.ps1
+```
+
+### Custom Configuration
+
+Edit the `.env` file after installation for advanced settings.
+
+## Project Structure
+
+```
+Wordpress-Docker-Installer-Windows/
+├── Install-WordPress.bat      # Double-click this to start
+├── GUI-Installer.ps1            # Graphical installer
+├── install.ps1                  # Command-line installer
+├── Dockerfile                   # WordPress image with WP-CLI
+├── docker-compose.yml           # MySQL configuration
+├── docker-compose.mariadb.yml   # MariaDB configuration
+├── docker-compose.postgresql.yml # PostgreSQL configuration
+└── README.md                    # This file
+```
 
 ## Security Notes
 
-1. **Save Your Credentials** - Store `credentials.txt` securely
-2. **Change Passwords** - Consider changing admin password after first login
-3. **Firewall** - Consider using a reverse proxy for production
-4. **Backups** - Use Docker volumes for data persistence
+1. **Save your credentials** - Keep `credentials.txt` secure
+2. **Change default password** - Consider changing admin password after first login
+3. **Firewall** - For production, consider using a reverse proxy
+4. **Backups** - Data persists in Docker volumes
 
 ## Linux Version
 
-A Linux version of this installer is available at:
+A Linux version of this installer is available:
 https://github.com/sfowooza/Wordpress-Docker-Image-Install
 
 ## License
 
-MIT License - Feel free to use and modify for your needs.
+MIT License - Free to use and modify.
 
 ## Support
 
-For issues and questions:
-- GitHub Issues: https://github.com/sfowooza/Wordpress-Docker-Installer-Windows/issues
-- Website: https://avodahsystems.com
+- **Issues**: https://github.com/sfowooza/Wordpress-Docker-Installer-Windows/issues
+- **Website**: https://avodahsystems.com
 
 ## Changelog
 
 ### v1.0.0 (2025-01-08)
-- Initial Windows release
-- Support for MySQL, MariaDB, and PostgreSQL
-- Interactive installation wizard
-- Auto-configuration of WordPress
-- Credential management
+- Initial release
+- Graphical installation wizard
+- Support for MySQL, MariaDB, PostgreSQL
+- Port availability checking
+- Real-time installation progress
+- Secure password generation
