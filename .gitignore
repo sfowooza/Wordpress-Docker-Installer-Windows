@@ -1,0 +1,20 @@
+# Environment files
+.env
+.compose_file
+
+# Credentials
+credentials.txt
+
+# PowerShell modules
+*.psm1
+
+# IDE
+.vscode/
+.idea/
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Docker
+*.log
